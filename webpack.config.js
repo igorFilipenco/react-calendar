@@ -59,7 +59,7 @@ module.exports = {
 
   devServer: {
     port: 9000,
-    host: "calendar",
+    host: "localhost",
     stats: 'errors-only',
     contentBase: path.join(__dirname, 'public'),
   },
