@@ -5,8 +5,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const extractCSS = new ExtractTextPlugin('[name].bundle.css');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
-//Настройка логов
+//logs config
 const stats = {
 	assets: true
 	, children: false
@@ -24,49 +26,55 @@ const stats = {
 
 module.exports = {
 
-  entry: [
-    'webpack-dev-server/client?http://localhost:3100', // WebpackDevServer host and port
-    'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
-    './src/app/index' // Your appʼs entry point
-  ],
-
+  context: path.resolve(__dirname, 'src/app'),
+  entry: './index.js',
   output: {
-    path: path.resolve(__dirname, "build"),
-    filename: "bundle.js",
-    publicPath: "/assets/", // string
+    path: path.resolve(__dirname, 'build'),
+    filename: 'bundle.js'
+  },
+
+  resolve: {
+    extensions: ['.js', '.jsx']
   },
 
   module: {
     loaders: [{
       test: /\.js$/,
-      loaders: ['react-hot-loader/webpack', 'babel-loader'],
-      include: path.join(__dirname, 'src'),
       exclude: /node_modules/,
+      use: [{
+        loader: 'babel-loader',
+        options: { presets: ['es2015',"stage-0","react"] }
+      }],
+      include: path.join(__dirname, 'src'),
+
     }, {
       test: /\.scss$/,
-      use: [
-             'style-loader',
-             'css-loader',
-             'sass-loader'
-      ]
+      loader: ExtractTextPlugin.extract({
+        fallbackLoader: "style-loader",
+        loader: "css-loader!sass-loader",
+      }),
     },
 
     ],
   },
 
-  devtool: "source-map"
-  ,
+  devtool: "source-map",
 
   devServer: {
     port: 9000,
     host: "localhost",
     stats: 'errors-only',
-    contentBase: path.join(__dirname, 'public'),
+    contentBase: __dirname + '/src',
   },
 
   plugins: [
-    new HtmlWebpackPlugin(),
-    new ExtractTextPlugin('./css/[name].css'),
+    new HtmlWebpackPlugin({
+        title: 'react-calendar',
+//        filename: 'index.html',
+        template: 'index.html'
+
+    }),
+    extractCSS,
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
     new webpack.optimize.UglifyJsPlugin({
@@ -74,6 +82,6 @@ module.exports = {
         compress: {
         warnings: false,
         }
-    })
+    }),
   ],
 }

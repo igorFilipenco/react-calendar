@@ -1,5 +1,4 @@
-:global {
-	div {
-		background-color: grey;
-	}
+$bg-color: rgba(16, 101, 101, 0.73);
+body {
+ background: $bg-color;
 }
