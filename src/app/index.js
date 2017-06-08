@@ -1,11 +1,8 @@
 import React from 'react';
 import { render } from 'react-dom';
 import ReactDOM from 'react-dom';
-import './main.scss'
+import Calendar from './pages/Calendar';
+import './main.scss';
 
-ReactDOM.render (
-	<div>
-		HI!!!!
-	</div>
-	, document.querySelector('#app')
-);
+
+ReactDOM.render(<Calendar/>, document.getElementById('app'));

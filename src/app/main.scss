@@ -1,4 +1,44 @@
 $bg-color: rgba(16, 101, 101, 0.73);
+$white: #fff;
+
+
+
 body {
  background: $bg-color;
+ height: 100%
+}
+
+#app {
+ height: 100%;
+ box-sizing: border-box;
+ font-size: 16px;
+
+    h1, h2, h3, h4, h5, h6 {
+        font-family: "Muli";
+        line-height: 1;
+    }
+
+ width: 100%;
+ height: auto;
+ box-sizing: border-box;
+}
+
+.calendar-wrapper {
+ margin-top: 60px;
+ background: $white;
+ height: 100%
+}
+
+/*--------------- Event List styles ------------*/
+
+.event-list-wrapper {
+  padding: 50px 0;
+  list-style: none
+}
+
+
+/*--------------- Button styles ------------*/
+
+.btn-custom {
+    text-transform: uppercase
 }
