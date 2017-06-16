@@ -14,7 +14,7 @@ export default class Input extends React.Component {
            return (
                 <div className="form-group">
                   <label>{this.props.name ? this.props.name : ''}</label>
-                  <input type="text"
+                  <input type={this.props.type}
                          className="form-control"
                          name={this.props.name}
                          value={this.props.value}

@@ -21,29 +21,76 @@ class EventStore extends EventEmitter {
         id: 4,
         title: 'title 4',
         date: '2017-11-12 19:14:01'
+        }, {
+        id: 5,
+        title: 'title 5',
+        date: '2017-06-13 19:00:01'
+        }, {
+        id: 6,
+        title: 'title 6',
+        date: '2017-06-13 19:20:01'
+        }, {
+        id: 7,
+        title: 'title 7',
+        date: '2017-06-16 19:20:01'
         }
+
     ];
+    this.currentEvents = [];
+    this.defaultEvents = [];
+  }
+
+  getDefaultEvents(key) {
+    for (event in this.events){
+        if (this.events[event].date.includes(key)) {
+            this.defaultEvents.push(this.events[event]);
+        }
+    }
+
+    if(this.defaultEvents.length === 0){
+        this.defaultEvents.push({id: 10, title: 'No events planned on this day', date: ''})
+    }
+  }
+
+  getCurrentEvents(key) {
+    this.currentEvents = []
+    for (event in this.events){
+        if (this.events[event].date.includes(key)) {
+            this.currentEvents.push(this.events[event]);
+        }
+    }
+
+    if(this.currentEvents.length === 0){
+        this.currentEvents.push({id: 10, title: 'No events planned on this day', date: ''})
+    }
+    this.emit("display");
   }
 
   createEvent(new_event) {
-    console.log(this.state);
+    console.log(new_event);
     this.events.push ({
-        id: new_event.id,
+        id: new_event.title.id,
         title: new_event.title,
         date: new_event.date
     })
     this.emit("change");
   }
 
-  getAll() {
-    return this.events
+  displayEvents() {
+    return this.currentEvents
+  }
+
+  displayDefaultEvents() {
+    return this.defaultEvents
   }
 
   handleActions(action) {
     switch(action.type) {
         case 'CREATE_EVENT' : {
         this.createEvent(action.new_event);
-
+      }
+        case 'DISPLAY_CURRENT_EVENTS' : {
+        this.getCurrentEvents(action.key);
       }
     }
   }

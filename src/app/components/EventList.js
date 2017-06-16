@@ -7,14 +7,19 @@ export default class EventList extends React.Component {
       constructor () {
         super();
         this.state = {
-            events: EventStore.getAll()
+            events: EventStore.displayDefaultEvents()
         };
       }
 
       componentWillMount() {
+        EventStore.on("display", () => {
+            this.setState ({
+                events: EventStore.displayEvents()
+            })
+        })
         EventStore.on("change", () => {
             this.setState ({
-                events: EventStore.getAll()
+                events: EventStore.displayEvents()
             })
         })
       }
@@ -24,16 +29,27 @@ export default class EventList extends React.Component {
         var EventsList = [];
 
         for (event in events) {
+        console.log(events[event].id)
             EventsList.push(
              <li key={events[event].id} id={events[event].id}>
-                {events[event].title} , {events[event].date}
+             <div className="col-md-9 col-xs-12">
+                <div className="event-description">
+                   {events[event].title}
+                </div>
+             </div>
+             <div className="col-md-3 col-xs-12">
+                <div className="event-date">
+                   {events[event].date}
+                </div>
+             </div>
              </li>
              )
         }
         return (
           <ul className="event-list-wrapper">
+             <h3 className="text-center"> Events on this day </h3>
              {EventsList}
           </ul>
         );
       }
- }
+}

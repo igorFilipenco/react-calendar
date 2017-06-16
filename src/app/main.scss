@@ -1,7 +1,6 @@
 $bg-color: rgba(16, 101, 101, 0.73);
 $white: #fff;
-
-
+$indRed: #cf4440;
 
 body {
  background: $bg-color;
@@ -14,7 +13,7 @@ body {
  font-size: 16px;
 
     h1, h2, h3, h4, h5, h6 {
-        font-family: "Muli";
+        font-family: "Roboto";
         line-height: 1;
     }
 
@@ -24,7 +23,7 @@ body {
 }
 
 .calendar-wrapper {
- margin-top: 60px;
+ //margin-top: 60px;
  background: $white;
  height: 100%
 }
@@ -32,8 +31,13 @@ body {
 /*--------------- Event List styles ------------*/
 
 .event-list-wrapper {
-  padding: 50px 0;
-  list-style: none
+  padding: 20px 0;
+  list-style: none;
+  margin: 20px 0;
+}
+
+.event-description, .event-date {
+    margin-bottom: 20px
 }
 
 
@@ -41,4 +45,81 @@ body {
 
 .btn-custom {
     text-transform: uppercase
+}
+
+/*--------------- Calendar Module styles ------------*/
+
+.calendar-module-wrapper {
+ font-size: 24px;
+}
+
+.calendar-module-header{
+ margin-top: 30px;
+ color: $white;
+ background-color: $indRed;
+ text-align: center;
+ border-radius: 10px;
+}
+
+.year-header{
+  font-size: 28px;
+}
+
+.month-header{
+  font-size: 26px;
+}
+
+.weekday-header{
+  display: inline-block;
+  width: 12%;
+  margin: 1%
+}
+
+.controls-header-left, .controls-header-right {
+  font-size: 16px;
+  color: $white;
+  top: -1px;
+  margin: 0 5px;
+}
+
+
+.today {
+ border-radius: 3px;
+ background-color: orange;
+ color: $white;
+}
+
+.day {
+ color: #2f2f2f;
+ text-decoration: none;
+ width: 12.2%;
+ margin: 1%;
+ border: 2px solid #eeeeee;
+ border-radius: 3px;
+ text-align: center;
+ padding: 5px 10px;
+ display: inline-block;
+}
+
+.day:hover {
+ color: $white;
+ background-color: #eeeeee;
+}
+
+.selected {
+ color: $white;
+ background-color: #2f70a8;
+}
+
+.selected:hover {
+ color: $white;
+ background-color: #275c8a;
+}
+
+.last-day,.future-day {
+ border: none;
+}
+
+.form-wrapper {
+ margin-top: 30px;
 }

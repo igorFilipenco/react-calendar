@@ -3,6 +3,7 @@ import Input from '../components/Input';
 import Button from '../components/Button';
 import EventStore from '../stores/EventStore';
 import EventList from '../components/EventList';
+import CalendarModule from '../components/CalendarModule';
 import * as EventActions from '../actions/EventActions';
 
 export default class Calendar extends React.Component {
@@ -30,14 +31,14 @@ export default class Calendar extends React.Component {
 
       cleanFields() {
         this.setState({
-              id: '',
               title: '',
               date: ''
         });
       }
 
       createEvent() {
-        var new_event = {id : this.state.id,
+        var new_event = {
+                         id: new Date().getTime(),
                          title : this.state.title,
                          date : this.state.date
                          }
@@ -51,22 +52,24 @@ export default class Calendar extends React.Component {
              <div className="row">
                 <div className="col-md-12 col-xs-12 calendar-wrapper">
                     <div className="col-md-8 col-md-offset-2 col-xs-12">
-                        <EventList/>
-                        <Input name="id"
-                               value={this.state.id}
-                               onChange={this.handleChange}
-                        />
-                        <Input name="title"
-                               value={this.state.title}
-                               onChange={this.handleChange}
-                        />
-                        <Input name="date"
-                               value={this.state.date}
-                               onChange={this.handleChange}
-                        />
-                        <Button name="add event"
-                                onClick={this.createEvent}
-                        />
+                        <CalendarModule />
+                        <EventList />
+                        <div className="form-wrapper">
+                            <h3 className="text-center"> Add new event </h3>
+                            <Input name="title"
+                                   type="text"
+                                   value={this.state.title}
+                                   onChange={this.handleChange}
+                            />
+                            <Input name="date"
+                                   type="datetime-local"
+                                   value={this.state.date}
+                                   onChange={this.handleChange}
+                            />
+                            <Button name="add event"
+                                    onClick={this.createEvent}
+                            />
+                        </div>
                     </div>
 
                 </div>
