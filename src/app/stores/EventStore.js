@@ -38,9 +38,14 @@ class EventStore extends EventEmitter {
     ];
     this.currentEvents = [];
     this.defaultEvents = [];
+    this.chosenDate;
   }
 
   getDefaultEvents(key) {
+    this.chosenDate = key;
+    if (this.defaultEvents.length > 0) {
+        this.defaultEvents = [];
+    }
     for (event in this.events){
         if (this.events[event].date.includes(key)) {
             this.defaultEvents.push(this.events[event]);
@@ -50,10 +55,17 @@ class EventStore extends EventEmitter {
     if(this.defaultEvents.length === 0){
         this.defaultEvents.push({id: 10, title: 'No events planned on this day', date: ''})
     }
+
+    this.emit("change.display_default");
   }
 
   getCurrentEvents(key) {
-    this.currentEvents = []
+
+    this.chosenDate = key;
+    if (key !== 'undefined') {
+        this.currentEvents = [];
+    }
+
     for (event in this.events){
         if (this.events[event].date.includes(key)) {
             this.currentEvents.push(this.events[event]);
@@ -63,17 +75,20 @@ class EventStore extends EventEmitter {
     if(this.currentEvents.length === 0){
         this.currentEvents.push({id: 10, title: 'No events planned on this day', date: ''})
     }
-    this.emit("display");
+
+    this.emit("change.display");
   }
 
   createEvent(new_event) {
-    console.log(new_event);
+
     this.events.push ({
-        id: new_event.title.id,
+        id: new_event.id,
         title: new_event.title,
         date: new_event.date
     })
-    this.emit("change");
+    if(new_event.date.includes(this.chosenDate)) {
+        this.getCurrentEvents(this.chosenDate)
+    }
   }
 
   displayEvents() {

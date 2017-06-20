@@ -12,12 +12,7 @@ export default class EventList extends React.Component {
       }
 
       componentWillMount() {
-        EventStore.on("display", () => {
-            this.setState ({
-                events: EventStore.displayEvents()
-            })
-        })
-        EventStore.on("change", () => {
+        EventStore.on("change.display", () => {
             this.setState ({
                 events: EventStore.displayEvents()
             })
@@ -25,11 +20,12 @@ export default class EventList extends React.Component {
       }
 
       render() {
+
         const events = this.state.events ;
         var EventsList = [];
 
         for (event in events) {
-        console.log(events[event].id)
+
             EventsList.push(
              <li key={events[event].id} id={events[event].id}>
              <div className="col-md-9 col-xs-12">

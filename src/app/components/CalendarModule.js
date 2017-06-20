@@ -46,7 +46,7 @@ class CalendarHeader extends React.Component {
            var calendarHeader = [];
 
            for(var i=0; i<7; i++){
-                calendarHeader.push(<div className="weekday-header"> {this.weekDays[i]} </div>);
+                calendarHeader.push(<div className="weekday-header" key={i}> {this.weekDays[i]} </div>);
            }
 
            return (
@@ -116,19 +116,22 @@ export default class CalendarModule extends React.Component {
         if (D1Nfirst != 0) {
 
           for(var  i = 1; i < D1Nfirst; i++) {
-            calendar.push(<div className="day last-day"></div>);
+            let day_key = 'ld' + i;
+            calendar.push(<div className="day last-day" key = {day_key}></div>);
           };
         } else { // если первый день месяца выпадает на воскресенье, то требуется 7 пустых клеток
 
           for(var  i = 0; i < 6; i++) {
-            calendar.push(<div className="day last-day"></div>);
+            let day_key = 'ld' + i;
+            calendar.push(<div className="day last-day" key = {day_key}></div>);
           };
         }
 
-
+        var week_key = 0;
         // дни месяца
         for(var  i = 1; i <= D1last; i++) {
           var day_key = this.state.year.toString()+("0" + this.state.month.toString()).slice(-2) + ("0" + i).slice(-2);
+
           if (i != D1.getDate()) {
             if (this.state.isSelected === i) {
                 dayClass = "day selected";
@@ -136,9 +139,8 @@ export default class CalendarModule extends React.Component {
                 dayClass = "day";
             }
 
-            calendar.push( <a href="#">
+            calendar.push( <a href="javascript:void(0);" key={day_key}>
                                 <div className={dayClass}
-                                     key={day_key}
                                      id={i}
                                      onClick={this.selectDate}>
                                      {i}
@@ -147,9 +149,8 @@ export default class CalendarModule extends React.Component {
             ) ;
           } else {
             dayClass = "day today";
-            calendar.push( <a href="#">
+            calendar.push( <a href="javascript:void(0);" key={day_key}>
                                 <div className={dayClass}
-                                     key={day_key}
                                      id={i}
                                      onClick={this.selectDate}>
                                      {i}
@@ -159,16 +160,18 @@ export default class CalendarModule extends React.Component {
             this.getDefaultDateEvents();
           }
           if (new Date(this.state.year,this.state.month,i).getDay() == 0) {  // если день выпадает на воскресенье, то перевод строки
-            calendar.push(<div className="row"></div>);
+            calendar.push(<div className="row" key={week_key}></div>);
           }
+            week_key++;
         }
 
         // пустые клетки после последнего дня месяца
         if (D1Nlast != 0) {
 
           for(var  i = D1Nlast; i < 7; i++) {
-            calendar.push(<div className="day future-day"></div>);
-          };;
+            let day_key = 'fd' +i;
+            calendar.push(<div className="day future-day" key = {day_key}></div>);
+          };
         }
 
         return calendar;
